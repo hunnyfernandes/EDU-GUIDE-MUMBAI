@@ -52,57 +52,22 @@ export const openGoogleSearch = (searchQuery, filters = {}) => {
     const googleUrl = generateGoogleSearchUrl(searchQuery, filters);
     console.log('Opening Google Search:', googleUrl);
     
-    // Detect if on mobile device
-    const isMobile = /iPhone|iPad|iPod|Android|Windows Phone|Opera Mini/i.test(navigator.userAgent);
+    // Use noopener for security and ensure it opens in new tab
+    const newTab = window.open(googleUrl, '_blank');
     
-    let newTab;
+    if (newTab === null) {
+      console.warn('Google search tab may have been blocked by pop-up blocker');
+      return false;
+    }
     
-    if (isMobile) {
-      // On mobile, use target="_blank" behavior by creating a link and clicking it
-      const link = document.createElement('a');
-      link.href = googleUrl;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      newTab = true;
-    } else {
-      // On desktop, use window.open
-      newTab = window.open(googleUrl, '_blank');
-      
-      if (newTab === null) {
-        console.warn('Google search tab may have been blocked by pop-up blocker');
-        // Fallback: create a link and click it
-        const link = document.createElement('a');
-        link.href = googleUrl;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.click();
-        return true;
-      }
-      
-      if (newTab && newTab.opener) {
-        newTab.opener = null;
-      }
+    if (newTab.opener) {
+      newTab.opener = null;
     }
     
     return true;
   } catch (error) {
     console.error('Error opening Google search:', error);
-    // Fallback: create a link and click it
-    try {
-      const link = document.createElement('a');
-      link.href = generateGoogleSearchUrl(searchQuery, filters);
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.click();
-      return true;
-    } catch (fallbackError) {
-      console.error('Fallback also failed:', fallbackError);
-      return false;
-    }
+    return false;
   }
 };
 
