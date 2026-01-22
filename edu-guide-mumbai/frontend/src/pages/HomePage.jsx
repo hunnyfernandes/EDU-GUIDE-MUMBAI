@@ -107,37 +107,37 @@ const HomePage = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/50 to-black/60 animate-fade-in z-0"></div>
 
                 {/* Content */}
-                <div className="container-main text-center relative z-10">
-                    <h1 className="mb-6 text-white drop-shadow-2xl text-5xl animate-slide-down">
+                <div className="container-main text-center relative z-10 px-4 sm:px-6">
+                    <h1 className="mb-4 sm:mb-6 text-white drop-shadow-2xl text-3xl sm:text-4xl md:text-5xl animate-slide-down">
                         Find Your Future College in Mumbai
                     </h1>
                     <div className="animate-fade-in-up delay-100">
-                        <p className="text-xl text-white/95 mb-12 max-w-2xl mx-auto drop-shadow-lg font-medium">
+                        <p className="text-base sm:text-lg md:text-xl text-white/95 mb-8 sm:mb-12 max-w-2xl mx-auto drop-shadow-lg font-medium">
                             Discover the best colleges, compare programs, read reviews, and make informed decisions about your education
                         </p>
                     </div>
 
                     {/* Search Bar */}
-                    <form onSubmit={handleSearch} className="max-w-3xl mx-auto mb-8 animate-fade-in-up delay-200">
-                        <div className="relative transform transition-transform hover:scale-[1.02] duration-300 group">
-                            <MagnifyingGlassIcon className="absolute left-6 top-1/2 transform -translate-y-1/2 w-6 h-6 text-white/70 group-hover:text-primary-500 transition-colors" />
+                    <form onSubmit={handleSearch} className="w-full max-w-3xl mx-auto mb-6 sm:mb-8 animate-fade-in-up delay-200 px-2 sm:px-0">
+                        <div className="relative transform transition-transform active:scale-95 sm:hover:scale-[1.02] duration-300 group">
+                            <MagnifyingGlassIcon className="absolute left-4 sm:left-6 top-1/2 transform -translate-y-1/2 w-5 sm:w-6 h-5 sm:h-6 text-white/70 group-hover:text-primary-500 transition-colors" />
                             <input
                                 type="text"
-                                placeholder="Search for colleges, courses, or streams..."
+                                placeholder="Search colleges, courses..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="search-bar w-full pl-16 pr-6 shadow-2xl border border-white/30 backdrop-blur-md bg-white/10 focus:bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-white hover:text-primary-600 hover:placeholder-primary-400 transition-colors"
+                                className="search-bar w-full pl-12 sm:pl-16 pr-4 sm:pr-6 py-3 sm:py-4 shadow-2xl border border-white/30 backdrop-blur-md bg-white/10 focus:bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 text-sm sm:text-base active:scale-95 sm:hover:bg-white sm:hover:text-primary-600 sm:hover:placeholder-primary-400 transition-colors rounded-lg"
                             />
                         </div>
                     </form>
 
                     {/* Category Pills */}
-                    <div className="flex flex-wrap justify-center gap-3 animate-fade-in-up delay-300">
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 animate-fade-in-up delay-300 px-2 sm:px-0">
                         {streams.map((stream, index) => (
                             <button
                                 key={stream}
                                 onClick={() => handleStreamClick(stream)}
-                                className="category-pill bg-white/20 hover:bg-white text-white hover:text-primary-600 border border-white/30 backdrop-blur-sm font-medium transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                                className="category-pill bg-white/20 hover:bg-white text-white hover:text-primary-600 border border-white/30 backdrop-blur-sm font-medium transition-all duration-300 hover:shadow-lg hover:-translate-y-1 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm rounded-full active:scale-95 min-h-[44px] flex items-center justify-center"
                                 style={{ animationDelay: `${300 + (index * 50)}ms` }}
                             >
                                 {stream}
