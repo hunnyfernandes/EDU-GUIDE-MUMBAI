@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Default to backend's server port (5002) if REACT_APP_API_URL is not provided
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5002/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
 
 // Create axios instance
 const api = axios.create({
@@ -25,7 +25,7 @@ const processQueue = (error, token = null) => {
             prom.resolve(token);
         }
     });
-    
+
     isRefreshing = false;
     failedQueue = [];
 };
@@ -74,7 +74,7 @@ api.interceptors.response.use(
                     localStorage.setItem('accessToken', accessToken);
                     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
                     originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-                    
+
                     processQueue(null, accessToken);
                     return api(originalRequest);
                 })
@@ -162,8 +162,8 @@ export const adminAPI = {
 
 // Chatbot API
 export const chatbotAPI = {
-    sendMessage: (message, conversationId, conversationHistory = []) => api.post('/chatbot/message', { 
-        message, 
+    sendMessage: (message, conversationId, conversationHistory = []) => api.post('/chatbot/message', {
+        message,
         conversation_id: conversationId,
         conversation_history: conversationHistory,
     }),

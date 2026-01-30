@@ -109,7 +109,7 @@ const CollegesPage = () => {
     if (searchInput.trim()) {
       setFilter("search", searchInput.trim());
       setShowSuggestions(false);
-      
+
       // Non-blocking search history logging
       if (isAuthenticated) {
         userAPI.logSearch({
@@ -132,7 +132,7 @@ const CollegesPage = () => {
     setSearchInput(collegeName);
     setFilter("search", collegeName);
     setShowSuggestions(false);
-    
+
     // Non-blocking search history logging
     if (isAuthenticated) {
       userAPI.logSearch({

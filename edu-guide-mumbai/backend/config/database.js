@@ -12,7 +12,11 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 0,
     enableKeepAlive: true,
-    keepAliveInitialDelay: 0
+    keepAliveInitialDelay: 0,
+    // Enable SSL for production/cloud databases
+    ssl: (process.env.NODE_ENV === 'production' || process.env.DB_SSL === 'true') ? {
+        rejectUnauthorized: false
+    } : undefined
 });
 
 // Get promise-based connection
