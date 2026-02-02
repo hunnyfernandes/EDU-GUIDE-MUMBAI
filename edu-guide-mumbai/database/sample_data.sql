@@ -1,6 +1,14 @@
 -- Sample Data for Edu Guide Mumbai
 
-USE edu_guide_mumbai;
+USE test;
+
+ALTER TABLE users ADD COLUMN email_verification_token VARCHAR(255) NULL;
+ALTER TABLE users ADD COLUMN email_verification_token_expires DATETIME NULL;
+ALTER TABLE colleges ADD COLUMN state VARCHAR(100) DEFAULT 'Maharashtra' AFTER city;
+SELECT college_name FROM colleges LIMIT 20;
+SELECT COUNT(*) as total_colleges FROM colleges;
+ALTER TABLE users ADD COLUMN email_verified BOOLEAN DEFAULT FALSE;
+
 
 -- Sample Users
 INSERT INTO users (full_name, email, password_hash, phone, role) VALUES

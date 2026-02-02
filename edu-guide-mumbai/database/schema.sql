@@ -1,8 +1,7 @@
 -- Edu Guide Mumbai Database Schema
-
+ALTER TABLE colleges MODIFY established_year INT;
 -- Create Database
-
-USE edu_guide_mumbai;
+USE test;
 
 -- Users Table
 CREATE TABLE users (

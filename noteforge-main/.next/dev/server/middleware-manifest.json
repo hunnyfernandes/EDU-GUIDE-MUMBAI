@@ -1,0 +1,54 @@
+{
+  "version": 3,
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge/chunks/98c8b_next_dist_esm_70a49c90._.js",
+        "server/edge/chunks/98c8b_next_dist_compiled_b9eed857._.js",
+        "server/edge/chunks/98c8b_next_dist_experimental_testmode_79edb251._.js",
+        "server/edge/chunks/noteforge-main_edge-wrapper_a94594ea.js",
+        "server/edge/chunks/589fa_@react-email_code-block_dist_index_mjs_8fafee90._.js",
+        "server/edge/chunks/d1283_tailwindcss_dist_2b045e57._.js",
+        "server/edge/chunks/48c32_@react-email_tailwind_dist_index_mjs_9ebd34be._.js",
+        "server/edge/chunks/2e8ea_@neondatabase_serverless_index_mjs_975c6f1e._.js",
+        "server/edge/chunks/00b83_drizzle-orm_faacbde8._.js",
+        "server/edge/chunks/c9dde_@better-auth_core_dist_e6c7da14._.js",
+        "server/edge/chunks/b702f_jose_dist_webapi_2a0bb085._.js",
+        "server/edge/chunks/8a119_zod_1cadfab3._.js",
+        "server/edge/chunks/139c0_better-auth_dist_f6d9007a._.js",
+        "server/edge/chunks/5bb93_kysely_dist_esm_operation-node_72a334c3._.js",
+        "server/edge/chunks/5bb93_kysely_dist_esm_parser_380641c3._.js",
+        "server/edge/chunks/5bb93_kysely_dist_esm_query-builder_b2e9ba0e._.js",
+        "server/edge/chunks/5bb93_kysely_dist_esm_schema_b5d99aed._.js",
+        "server/edge/chunks/5bb93_kysely_dist_esm_a72c7899._.js",
+        "server/edge/chunks/b7251_svix_dist_a3de600c._.js",
+        "server/edge/chunks/30dae_prettier_f484a9d6._.js",
+        "server/edge/chunks/54a2c_entities_lib_esm_09a00079._.js",
+        "server/edge/chunks/91602__pnpm_4efc6a24._.js",
+        "server/edge/chunks/[root-of-the-server]__0dbe1fcc._.js",
+        "server/edge/chunks/turbopack-noteforge-main_edge-wrapper_67909584.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/dashboard(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\\\.json)?[\\/#\\?]?$",
+          "originalSource": "/dashboard/:path*"
+        }
+      ],
+      "wasm": [],
+      "assets": [],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "1wDxWgSSwvoStC2WtYzFH1E/R+VnPdK86dLxrkfhnaA=",
+        "__NEXT_PREVIEW_MODE_ID": "4947f3408512ea96cb3f06cde2dc5c62",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "a3e1cea7caf368b281069fdc36758f2bb7ffb8687a4112b35fc76eaf5bcb88c9",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "49d536abb598ee0755e7c3a9f19259734bd51b47dfb34450a21764c1d73ca4bc"
+      }
+    }
+  },
+  "sortedMiddleware": [
+    "/"
+  ],
+  "functions": {}
+}

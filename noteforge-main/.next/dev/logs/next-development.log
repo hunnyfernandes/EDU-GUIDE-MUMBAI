@@ -1,0 +1,200 @@
+[00:00:06.353] Server  LOG     
+[00:00:06.353] Server  LOG        We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+[00:00:06.354] Server  LOG        The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+[00:00:06.355] Server  LOG        	- include was updated to add '.next/dev/types/**/*.ts'
+[00:00:06.356] Server  LOG     
+[00:00:06.357] Server  LOG        The following mandatory changes were made to your tsconfig.json:
+
+[00:00:06.357] Server  LOG        	- jsx was set to react-jsx (next.js uses the React automatic runtime)
+[00:00:06.358] Server  LOG     
+[00:00:06.424] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:07.153] Server  LOG      ✓ Ready in 5.8s
+[00:00:24.404] Server  LOG      ○ Compiling / ...
+[00:00:29.543] Server  ERROR    ⨯ ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:32.000] Browser ERROR   uncaughtError: Error: ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:32.270] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:32.270] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:32.504] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
+[00:05:34.507] Server  ERROR    ⨯ ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:05:34.958] Browser ERROR   uncaughtError: Error: ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:05:35.165] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
+[00:05:35.165] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
+[00:05:46.379] Server  ERROR    ⨯ ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:05:46.648] Browser ERROR   uncaughtError: Error: ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:05:46.890] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
+[00:05:46.890] Browser ERROR   ./noteforge-main/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/theme-provider'
+  2 | import { Geist, Geist_Mono } from "next/font/google";
+  3 | import "./globals.css";
+> 4 | import { ThemeProvider } from "@/components/theme-provider";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { Toaster } from "@/components/ui/sonner";
+  6 | import { NuqsAdapter } from "nuqs/adapters/next/app";
+  7 | import { Analytics } from "@vercel/analytics/react";
+
+Import map: aliased to relative './components/theme-provider' inside of [project]/noteforge-main
+
+https://nextjs.org/docs/messages/module-not-found
