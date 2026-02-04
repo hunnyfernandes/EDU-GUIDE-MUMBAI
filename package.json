@@ -1,3 +1,7 @@
+"engines": {
+  "node": ">=18.0.0",
+  "npm": ">=9.0.0"
+}
 {
   "name": "edu-guide-mumbai-backend",
   "version": "1.0.0",
