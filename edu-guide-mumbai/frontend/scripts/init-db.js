@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const hostsToTry = [
+    'gateway01.us-central-prod.aws.tidbcloud.com', // User provided host
     'gateway01.us-east-1.prod.aws.tidbcloud.com',
     'gateway01.us-west-2.prod.aws.tidbcloud.com',
     'gateway01.eu-central-1.prod.aws.tidbcloud.com',

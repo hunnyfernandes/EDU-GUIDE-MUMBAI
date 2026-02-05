@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Default to backend's server port (5002) if REACT_APP_API_URL is not provided
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5002/api';
+// Default to relative path '/api' in production to use Vercel Rewrites
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5002/api');
 
 // Create axios instance
 const api = axios.create({

@@ -1,0 +1,52 @@
+
+IMPORTANT: You must update these Environment Variables in your Vercel Project Settings for the features to work.
+
+1. Go to https://vercel.com/dashboard
+2. Select your project "frontend-edu-guide"
+3. Go to Settings -> Environment Variables
+4. Add/Update the following:
+
+---------------------------------------------------
+Key: VITE_API_URL
+Value: /api
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: DB_HOST
+Value: gateway01.us-east-1.prod.aws.tidbcloud.com
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: DB_USER
+Value: 28Tj8jRq9PYA0ot.root
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: DB_PASSWORD
+Value: nmPYTeOZXv4gkfP0
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: DB_NAME
+Value: test
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: DB_PORT
+Value: 4000
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: DB_SSL
+Value: true
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: JWT_SECRET
+Value: your_super_secure_jwt_secret_key_2024
+(Target: Production, Preview, Development)
+---------------------------------------------------
+Key: NODE_ENV
+Value: production
+(Target: Production, Preview, Development)
+---------------------------------------------------
+
+NOTE ON DATABASE CREDENTIALS:
+Your database connection was failing with "Access Denied". 
+- Check your TiDB Cloud Console (https://tidbcloud.com/).
+- Verify if your username is exactly "28Tj8jRq9PYA0ot.root" or if it has a different prefix.
+- Verify if your password "nmPYTeOZXv4gkfP0" is correct.
+- If you regenerated the password, you must update it in Vercel.
