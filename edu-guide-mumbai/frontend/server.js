@@ -146,6 +146,17 @@ if (!process.env.VERCEL) {
   testConnection();
 }
 
+app.get("/api/debug/db", async (req, res) => {
+  try {
+    const connection = await promisePool.getConnection();
+    await connection.query("SELECT 1");
+    connection.release();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false, code: err.code, message: err.message });
+  }
+});
+
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/colleges", collegeRoutes);
