@@ -1,32 +1,27 @@
-# Copy and paste these values into your Vercel Project Settings > Environment Variables
-# Project: frontend-edu-guide (or whatever your Vercel project name is)
+# ------------------------------------------------------------------
+# VERCEL ENVIRONMENT VARIABLES
+# ------------------------------------------------------------------
+# Copy and paste these into your Vercel Project Settings > Environment Variables
+# URL: https://vercel.com/your-username/edu-guide-mumbai/settings/environment-variables
 
-# --- Database Configuration (TiDB Cloud) ---
-DB_HOST=gateway01.us-central-prod.aws.tidbcloud.com
-DB_PORT=4000
+# 1. Database Connection (TiDB Cloud)
+# IMPORTANT: You provided 'gateway01.us-central-prod.aws.tidbcloud.com' which seems invalid.
+# Please check your TiDB Console -> Connect -> Connect with generic client to get the exact Host.
+# It is likely 'gateway01.us-east-1.prod.aws.tidbcloud.com' or similar.
+DB_HOST=gateway01.us-east-1.prod.aws.tidbcloud.com
 DB_USER=28Tj8jRq9PYA0ot.root
 DB_PASSWORD=nmPYTeOZXv4gkfP0
 DB_NAME=test
+DB_PORT=4000
 DB_SSL=true
 
-# --- Security ---
-# You can generate a random string for this, or use the one below
-JWT_SECRET=your_secure_jwt_secret_key_change_this_to_something_random
+# 2. Authentication Secrets (You can generate new random strings for these if you want)
+JWT_SECRET=your_super_secret_jwt_key_12345
+SESSION_SECRET=your_super_secret_session_key_67890
 
-# --- AI Configuration (Google Gemini) ---
+# 3. API Keys (Google Gemini AI)
 AI_PROVIDER=gemini
-GEMINI_API_KEY=AIzaSyB2DUFGTtbtqXsa1hW3Y-GrktWLsOmPbUk
-# Optional: Set model if needed
-GEMINI_MODEL=gemini-pro
+AI_API_KEY=AIzaSyB2DUFGTtbtqXsa1hW3Y-GrktWLsOmPbUk
 
-# --- Frontend URL ---
-# Required for CORS to allow requests from your frontend
-CLIENT_URL=https://frontend-edu-guide.vercel.app
-
-# --- Node Environment ---
+# 4. Environment Mode
 NODE_ENV=production
-
-# --- IMPORTANT NOTES ---
-# 1. DB_USER: If '28Tj8jRq9PYA0ot.root' does not work, try '28Tj8jRq9PYA0ot' (without .root).
-# 2. VITE_API_URL: Do NOT set this variable in Vercel for the frontend project. 
-#    The frontend is configured to use the relative '/api' path which works automatically with Vercel Rewrites.
