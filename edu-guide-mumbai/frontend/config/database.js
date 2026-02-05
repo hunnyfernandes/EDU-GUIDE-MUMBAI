@@ -30,10 +30,11 @@ const testConnection = async () => {
         connection.release();
     } catch (error) {
         console.error('❌ Database connection failed:', error.message);
-        process.exit(1);
+        // Don't exit process in Vercel/Serverless environment
+        if (!process.env.VERCEL) {
+             process.exit(1);
+        }
     }
-
-    // Export
 };
 
 // Export

@@ -112,7 +112,10 @@ app.use(
 );
 
 // Test database connection
-testConnection();
+// Only test connection if not in serverless mode to avoid cold start delays/errors
+if (!process.env.VERCEL) {
+  testConnection();
+}
 
 // API Routes
 app.use("/api/auth", authRoutes);
