@@ -9,6 +9,10 @@
       "destination": "/api/debug-env.js"
     },
     {
+      "source": "/api/debug-db-full",
+      "destination": "/api/debug-db-full.js"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     },
