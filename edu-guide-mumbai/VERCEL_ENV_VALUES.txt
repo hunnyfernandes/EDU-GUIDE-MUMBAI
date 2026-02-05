@@ -1,27 +1,53 @@
-# ------------------------------------------------------------------
-# VERCEL ENVIRONMENT VARIABLES
-# ------------------------------------------------------------------
-# Copy and paste these into your Vercel Project Settings > Environment Variables
-# URL: https://vercel.com/your-username/edu-guide-mumbai/settings/environment-variables
+# =================================================================
+# VERCEL ENVIRONMENT VARIABLES GUIDE
+# =================================================================
+#
+# The "features not working" issue is because Vercel cannot connect to your Database.
+# The credentials you provided seem to have issues.
+#
+# 1. DB_HOST: You provided 'gateway01.us-central-prod.aws.tidbcloud.com' which is INVALID.
+#    It is most likely: gateway01.us-east-1.prod.aws.tidbcloud.com
+#
+# 2. DB_USER: You provided '28Tj8jRq9PYA0ot'.
+#    TiDB requires a prefix. It should look like: 28Tj8jRq9PYA0ot.root
+#
+# 3. DB_PASSWORD: You provided 'nmPYTeOZXv4gkfP0'.
+#    If connection fails, this password might be incorrect.
+#
+# INSTRUCTIONS:
+# 1. Go to Vercel Dashboard -> Settings -> Environment Variables.
+# 2. Add/Update the following variables.
+# 3. REDEPLOY your project for changes to take effect.
+# =================================================================
 
-# 1. Database Connection (TiDB Cloud)
-# IMPORTANT: You provided 'gateway01.us-central-prod.aws.tidbcloud.com' which seems invalid.
-# Please check your TiDB Console -> Connect -> Connect with generic client to get the exact Host.
-# It is likely 'gateway01.us-east-1.prod.aws.tidbcloud.com' or similar.
-DB_HOST=gateway01.us-east-1.prod.aws.tidbcloud.com
-DB_USER=28Tj8jRq9PYA0ot.root
+# Backend Variables (REQUIRED)
+DB_HOST=gateway01.eu-central-1.prod.aws.tidbcloud.com
+DB_USER=2ST8jsi8rqo9KYA.root
 DB_PASSWORD=nmPYTeOZXv4gkfP0
 DB_NAME=test
-DB_PORT=4000
 DB_SSL=true
+DB_CONNECTION_LIMIT=10
 
-# 2. Authentication Secrets (You can generate new random strings for these if you want)
-JWT_SECRET=your_super_secret_jwt_key_12345
-SESSION_SECRET=your_super_secret_session_key_67890
-
-# 3. API Keys (Google Gemini AI)
-AI_PROVIDER=gemini
-AI_API_KEY=AIzaSyB2DUFGTtbtqXsa1hW3Y-GrktWLsOmPbUk
-
-# 4. Environment Mode
+# Security (REQUIRED)
+JWT_SECRET=your_super_secret_jwt_key_here_make_it_long
+# NODE_ENV should be 'production' in Vercel
 NODE_ENV=production
+
+# AI Provider (REQUIRED for Chatbot)
+AI_PROVIDER=gemini
+# You provided this key:
+GEMINI_API_KEY=AIzaSyB2DUFGTtbtqXsa1hW3Y-GrktWLsOmPbUk
+
+# Frontend Variables (REQUIRED)
+# This tells the frontend where the backend is.
+# For Vercel Monorepo (Frontend + Backend in same project), use relative path:
+VITE_API_URL=/api
+
+# =================================================================
+# HOW TO VERIFY CONNECTION
+# =================================================================
+# I have created a script 'scripts/verify-tidb.js'.
+# You can edit it with your credentials and run:
+# node scripts/verify-tidb.js
+#
+# If it says "✅ SUCCESS!", then use those values in Vercel.
