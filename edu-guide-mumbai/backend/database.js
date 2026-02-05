@@ -38,4 +38,3 @@ const testConnection = async () => {
 
 // Export
 module.exports = { pool, promisePool, testConnection };
-

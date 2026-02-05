@@ -20,7 +20,15 @@ const logger = require("./utils/logger");
 const path = require("path");
 
 // Swagger documentation
-const { swaggerSpec, swaggerUi, swaggerOptions } = require("./config/swagger");
+let swaggerUi, swaggerSpec, swaggerOptions;
+try {
+  const swaggerConfig = require("./config/swagger");
+  swaggerUi = swaggerConfig.swaggerUi;
+  swaggerSpec = swaggerConfig.swaggerSpec;
+  swaggerOptions = swaggerConfig.swaggerOptions;
+} catch (err) {
+  console.warn("⚠️ Swagger setup failed (likely due to Vercel environment):", err.message);
+}
 
 // Caching middleware
 const { cacheMiddleware } = require("./middleware/cache");
@@ -124,11 +132,13 @@ app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Swagger API Documentation
-app.use(
-  "/api/docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, swaggerOptions)
-);
+if (swaggerUi && swaggerSpec) {
+  app.use(
+    "/api/docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, swaggerOptions)
+  );
+}
 
 // Test database connection
 // Only test connection if not in serverless mode to avoid cold start delays/errors

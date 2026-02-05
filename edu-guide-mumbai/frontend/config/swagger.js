@@ -168,7 +168,13 @@ const options = {
   ]
 };
 
-const swaggerSpec = swaggerJsdoc(options);
+let swaggerSpec;
+try {
+  swaggerSpec = swaggerJsdoc(options);
+} catch (err) {
+  console.warn('⚠️ Swagger JSDoc generation failed:', err.message);
+  swaggerSpec = {}; // Fallback empty spec
+}
 
 const swaggerOptions = {
   customCss: '.swagger-ui .topbar { display: none }',
