@@ -1,52 +1,32 @@
+# Copy and paste these values into your Vercel Project Settings > Environment Variables
+# Project: frontend-edu-guide (or whatever your Vercel project name is)
 
-IMPORTANT: You must update these Environment Variables in your Vercel Project Settings for the features to work.
+# --- Database Configuration (TiDB Cloud) ---
+DB_HOST=gateway01.us-central-prod.aws.tidbcloud.com
+DB_PORT=4000
+DB_USER=28Tj8jRq9PYA0ot.root
+DB_PASSWORD=nmPYTeOZXv4gkfP0
+DB_NAME=test
+DB_SSL=true
 
-1. Go to https://vercel.com/dashboard
-2. Select your project "frontend-edu-guide"
-3. Go to Settings -> Environment Variables
-4. Add/Update the following:
+# --- Security ---
+# You can generate a random string for this, or use the one below
+JWT_SECRET=your_secure_jwt_secret_key_change_this_to_something_random
 
----------------------------------------------------
-Key: VITE_API_URL
-Value: /api
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: DB_HOST
-Value: gateway01.us-east-1.prod.aws.tidbcloud.com
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: DB_USER
-Value: 28Tj8jRq9PYA0ot.root
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: DB_PASSWORD
-Value: nmPYTeOZXv4gkfP0
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: DB_NAME
-Value: test
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: DB_PORT
-Value: 4000
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: DB_SSL
-Value: true
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: JWT_SECRET
-Value: your_super_secure_jwt_secret_key_2024
-(Target: Production, Preview, Development)
----------------------------------------------------
-Key: NODE_ENV
-Value: production
-(Target: Production, Preview, Development)
----------------------------------------------------
+# --- AI Configuration (Google Gemini) ---
+AI_PROVIDER=gemini
+GEMINI_API_KEY=AIzaSyB2DUFGTtbtqXsa1hW3Y-GrktWLsOmPbUk
+# Optional: Set model if needed
+GEMINI_MODEL=gemini-pro
 
-NOTE ON DATABASE CREDENTIALS:
-Your database connection was failing with "Access Denied". 
-- Check your TiDB Cloud Console (https://tidbcloud.com/).
-- Verify if your username is exactly "28Tj8jRq9PYA0ot.root" or if it has a different prefix.
-- Verify if your password "nmPYTeOZXv4gkfP0" is correct.
-- If you regenerated the password, you must update it in Vercel.
+# --- Frontend URL ---
+# Required for CORS to allow requests from your frontend
+CLIENT_URL=https://frontend-edu-guide.vercel.app
+
+# --- Node Environment ---
+NODE_ENV=production
+
+# --- IMPORTANT NOTES ---
+# 1. DB_USER: If '28Tj8jRq9PYA0ot.root' does not work, try '28Tj8jRq9PYA0ot' (without .root).
+# 2. VITE_API_URL: Do NOT set this variable in Vercel for the frontend project. 
+#    The frontend is configured to use the relative '/api' path which works automatically with Vercel Rewrites.
