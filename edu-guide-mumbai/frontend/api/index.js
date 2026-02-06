@@ -1,6 +1,9 @@
 const serverless = require('serverless-http');
 const express = require('express');
 
+// Ensure VERCEL environment variable is set to prevent app.listen() in server.js
+process.env.VERCEL = '1';
+
 let app;
 let startupError = null;
 
