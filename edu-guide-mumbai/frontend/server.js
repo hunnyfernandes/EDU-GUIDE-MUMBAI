@@ -35,10 +35,10 @@ const { cacheMiddleware } = require("./middleware/cache");
 
 // Import routes
 const authRoutes = require("./routes/authRoutes");
-// const collegeRoutes = require("./routes/collegeRoutes");
-// const reviewRoutes = require("./routes/reviewRoutes");
-// const userRoutes = require("./routes/userRoutes");
-// const adminRoutes = require("./routes/adminRoutes");
+const collegeRoutes = require("./routes/collegeRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
+const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 // const chatbotRoutes = require("./routes/chatbotRoutes");
 
 // Initialize express app
@@ -172,18 +172,18 @@ app.get("/api/debug/db", async (req, res) => {
 });
 
 // API Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/colleges", collegeRoutes);
-// app.use("/api/reviews", reviewRoutes);
-// app.use("/api/user", userRoutes);
-// app.use("/api/admin", adminRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/colleges", collegeRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
 // app.use("/api/chatbot", chatbotRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
-    message: "Edu Guide Mumbai API is running (Testing Auth Routes + Test Endpoint)",
+    message: "Edu Guide Mumbai API is running (Testing ALL Core Routes)",
     timestamp: new Date().toISOString(),
   });
 });
