@@ -39,6 +39,7 @@ const authLimiter = rateLimit({
 });
 
 // Public routes with rate limiting and validation
+router.get("/test", (req, res) => res.json({ message: "Auth route works" }));
 router.post("/register", authLimiter, validateRegister, register);
 router.post("/login", authLimiter, validateLogin, login);
 router.post("/refresh-token", refreshToken);

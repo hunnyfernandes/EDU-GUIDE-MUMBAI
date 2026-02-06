@@ -172,7 +172,7 @@ app.get("/api/debug/db", async (req, res) => {
 });
 
 // API Routes
-app.use("/api/auth", authRoutes);
+// app.use("/api/auth", authRoutes);
 // app.use("/api/colleges", collegeRoutes);
 // app.use("/api/reviews", reviewRoutes);
 // app.use("/api/user", userRoutes);
@@ -183,7 +183,7 @@ app.use("/api/auth", authRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
-    message: "Edu Guide Mumbai API is running (Testing Auth Routes)",
+    message: "Edu Guide Mumbai API is running (Testing Auth Routes + Test Endpoint)",
     timestamp: new Date().toISOString(),
   });
 });
