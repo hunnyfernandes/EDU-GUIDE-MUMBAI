@@ -107,6 +107,7 @@ const CollegeCard = ({ college, saved = false, onSaveToggle }) => {
                             <img
                                 src={imageUrl}
                                 alt={college.college_name}
+                                crossOrigin="anonymous"
                                 loading="lazy"
                                 onLoad={() => setImageLoaded(true)}
                                 onError={() => setImageLoaded(false)}

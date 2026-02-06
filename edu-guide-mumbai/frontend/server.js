@@ -45,7 +45,17 @@ const chatbotRoutes = require("./routes/chatbotRoutes");
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", "http://localhost:5173", "http://localhost:5174", "https://frontend-edu-guide.vercel.app", "https://frontend-git-main-edu-guide.vercel.app"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://plus.unsplash.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+    },
+  },
+}));
 
 // CORS configuration - Support multiple origins
 const allowedOrigins = [
