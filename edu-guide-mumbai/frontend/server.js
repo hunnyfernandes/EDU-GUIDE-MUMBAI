@@ -98,6 +98,10 @@ app.use(
   })
 );
 
+app.get("/api/test-simple", (req, res) => {
+  res.json({ message: "Simple route works" });
+});
+
 // Rate limiting - General API rate limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -179,7 +183,7 @@ app.use("/api/chatbot", chatbotRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
-    message: "Edu Guide Mumbai API is running",
+    message: "Edu Guide Mumbai API is running (Full V2)",
     timestamp: new Date().toISOString(),
   });
 });
