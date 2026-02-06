@@ -7,39 +7,39 @@ require("dotenv").config();
 
 // Validate environment variables before starting server
 // In Vercel, env vars might be injected differently, so we catch errors instead of crashing
-try {
-  const { validateEnv } = require("./config/envValidator");
-  validateEnv();
-} catch (err) {
-  console.warn("⚠️ Env validation failed:", err.message);
-}
+// try {
+//   const { validateEnv } = require("./config/envValidator");
+//   validateEnv();
+// } catch (err) {
+//   console.warn("⚠️ Env validation failed:", err.message);
+// }
 
-const { testConnection } = require("./config/database");
+// const { testConnection } = require("./config/database");
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 const logger = require("./utils/logger");
 const path = require("path");
 
 // Swagger documentation
 let swaggerUi, swaggerSpec, swaggerOptions;
-try {
-  const swaggerConfig = require("./config/swagger");
-  swaggerUi = swaggerConfig.swaggerUi;
-  swaggerSpec = swaggerConfig.swaggerSpec;
-  swaggerOptions = swaggerConfig.swaggerOptions;
-} catch (err) {
-  console.warn("⚠️ Swagger setup failed (likely due to Vercel environment):", err.message);
-}
+// try {
+//   const swaggerConfig = require("./config/swagger");
+//   swaggerUi = swaggerConfig.swaggerUi;
+//   swaggerSpec = swaggerConfig.swaggerSpec;
+//   swaggerOptions = swaggerConfig.swaggerOptions;
+// } catch (err) {
+//   console.warn("⚠️ Swagger setup failed (likely due to Vercel environment):", err.message);
+// }
 
 // Caching middleware
 const { cacheMiddleware } = require("./middleware/cache");
 
 // Import routes
-const authRoutes = require("./routes/authRoutes");
-const collegeRoutes = require("./routes/collegeRoutes");
-const reviewRoutes = require("./routes/reviewRoutes");
-const userRoutes = require("./routes/userRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const chatbotRoutes = require("./routes/chatbotRoutes");
+// const authRoutes = require("./routes/authRoutes");
+// const collegeRoutes = require("./routes/collegeRoutes");
+// const reviewRoutes = require("./routes/reviewRoutes");
+// const userRoutes = require("./routes/userRoutes");
+// const adminRoutes = require("./routes/adminRoutes");
+// const chatbotRoutes = require("./routes/chatbotRoutes");
 
 // Initialize express app
 const app = express();
@@ -153,27 +153,27 @@ if (swaggerUi && swaggerSpec) {
 // Test database connection
 // Only test connection if not in serverless mode to avoid cold start delays/errors
 if (!process.env.VERCEL) {
-  testConnection();
+  // testConnection();
 }
 
-app.get("/api/debug/db", async (req, res) => {
-  try {
-    const connection = await promisePool.getConnection();
-    await connection.query("SELECT 1");
-    connection.release();
-    res.json({ success: true });
-  } catch (err) {
-    res.status(500).json({ success: false, code: err.code, message: err.message });
-  }
-});
+// app.get("/api/debug/db", async (req, res) => {
+//   try {
+//     const connection = await promisePool.getConnection();
+//     await connection.query("SELECT 1");
+//     connection.release();
+//     res.json({ success: true });
+//   } catch (err) {
+//     res.status(500).json({ success: false, code: err.code, message: err.message });
+//   }
+// });
 
 // API Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/colleges", collegeRoutes);
-app.use("/api/reviews", reviewRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/chatbot", chatbotRoutes);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/colleges", collegeRoutes);
+// app.use("/api/reviews", reviewRoutes);
+// app.use("/api/user", userRoutes);
+// app.use("/api/admin", adminRoutes);
+// app.use("/api/chatbot", chatbotRoutes);
 
 // Health check route
 app.get("/api/health", (req, res) => {
