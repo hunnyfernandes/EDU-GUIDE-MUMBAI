@@ -4,23 +4,23 @@ require('dotenv').config();
 // Create connection pool for better performance
 // Optimized for Vercel Serverless environment
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'edu_guide_mumbai',
-    port: process.env.DB_PORT || 3306,
+    // HARDCODED CREDENTIALS FOR VERCEL DEPLOYMENT - DO NOT COMMIT TO PUBLIC REPO PERMANENTLY
+    host: 'gateway01.eu-central-1.prod.aws.tidbcloud.com',
+    user: '2ST8jsi8rqo9KYA.root',
+    password: 'nmPYTeOZXv4gkfP0',
+    database: 'test',
+    port: 4000,
     waitForConnections: true,
-    connectionLimit: process.env.DB_CONNECTION_LIMIT ? parseInt(process.env.DB_CONNECTION_LIMIT) : 5, // Lower limit for serverless
+    connectionLimit: 5,
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
-    connectTimeout: 10000, // Fail fast (10s)
-    acquireTimeout: 10000, // Fail fast if pool is full (10s)
-    // Enable SSL for production/cloud databases
-    ssl: (process.env.NODE_ENV === 'production' || process.env.DB_SSL === 'true') ? {
+    connectTimeout: 20000, // Increased timeout
+    acquireTimeout: 20000,
+    ssl: {
         minVersion: 'TLSv1.2',
         rejectUnauthorized: true
-    } : undefined
+    }
 });
 
 // Get promise-based connection
