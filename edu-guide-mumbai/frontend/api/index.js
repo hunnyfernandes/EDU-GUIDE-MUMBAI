@@ -1,36 +1,42 @@
 const serverless = require('serverless-http');
 const express = require('express');
 
-// Ensure VERCEL environment variable is set to prevent app.listen() in server.js
-process.env.VERCEL = '1';
+const app = express();
 
-let app;
-let startupError = null;
+// Log every request
+app.use((req, res, next) => {
+    console.log(`Request: ${req.method} ${req.url}`);
+    next();
+});
 
-try {
-  // Try to load the main application
-  app = require('../server');
-} catch (err) {
-  console.error("CRITICAL: Failed to load server.js:", err);
-  startupError = err;
-  
-  // Create a fallback app to report the error
-  app = express();
-  app.use(express.json());
-}
-
-// If the main app failed to load, add a catch-all route to report the error
-if (startupError) {
-  app.all('*', (req, res) => {
-    res.status(500).json({
-      success: false,
-      error: 'Server Initialization Failed',
-      message: startupError.message,
-      stack: process.env.NODE_ENV === 'development' ? startupError.stack : undefined,
-      timestamp: new Date().toISOString()
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ 
+        status: "ok", 
+        source: "api/index.js",
+        path: req.path,
+        baseUrl: req.baseUrl,
+        originalUrl: req.originalUrl
     });
-  });
-}
+});
 
-// Export the serverless handler
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: "ok", 
+        source: "api/index.js",
+        path: req.path,
+        note: "Matched /health without /api prefix"
+    });
+});
+
+// Catch-all to see what's happening
+app.use((req, res) => {
+    console.log(`404: ${req.url}`);
+    res.status(404).json({
+        error: "Not Found",
+        path: req.path,
+        method: req.method,
+        originalUrl: req.originalUrl
+    });
+});
+
 module.exports = serverless(app);
