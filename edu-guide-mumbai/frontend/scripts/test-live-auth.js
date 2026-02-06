@@ -127,6 +127,17 @@ const runTest = async () => {
     log('   ERROR: ' + e.message);
   }
 
+  // College List test
+  log('\n0.6. Testing College List (/api/colleges)...');
+  try {
+    const collegeRes = await request('/colleges', 'GET');
+    log(`   Status: ${collegeRes.statusCode}`);
+    // log(`   Response: ${collegeRes.body.substring(0, 100)}...`); // Truncate
+    log(`   Response Length: ${collegeRes.body.length}`);
+  } catch (e) {
+    log('   ERROR: ' + e.message);
+  }
+
   log('\n1. Testing Registration...');
   log(`   User: ${testUser.email}`);
   

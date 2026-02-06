@@ -183,7 +183,7 @@ app.use("/api/admin", adminRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
-    message: "Edu Guide Mumbai API is running (Testing ALL Core Routes)",
+    message: "Edu Guide Mumbai API is running (Testing ALL Core Routes + Upload Fix)",
     timestamp: new Date().toISOString(),
   });
 });

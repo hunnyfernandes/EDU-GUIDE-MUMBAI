@@ -9,19 +9,30 @@ const path = require('path');
 const fs = require('fs');
 
 // Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '../uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+// In Vercel environment, we must use /tmp directory as the root is read-only
+const isVercel = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME;
+const uploadsDir = isVercel ? path.join('/tmp', 'uploads') : path.join(__dirname, '../uploads');
+
+try {
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn(`⚠️ Failed to create uploads directory at ${uploadsDir}:`, err.message);
 }
 
 // Configure storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(uploadsDir, file.fieldname);
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
+    try {
+      if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+      }
+      cb(null, uploadPath);
+    } catch (err) {
+      cb(new Error(`Failed to create upload directory: ${err.message}`));
     }
-    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     // Generate unique filename: timestamp-random-originalname
