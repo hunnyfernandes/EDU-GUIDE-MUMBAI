@@ -13,6 +13,10 @@
       "destination": "/api/debug-db-full.js"
     },
     {
+      "source": "/api/test",
+      "destination": "/api/test.js"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     },
