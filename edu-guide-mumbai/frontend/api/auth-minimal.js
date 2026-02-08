@@ -1,32 +1,34 @@
-// Minimal auth handler for testing
-const serverless = require('serverless-http');
-const express = require('express');
-const cors = require('cors');
+// Native Vercel handler (no Express)
 
-const app = express();
+module.exports = (req, res) => {
+    // CORS Headers
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // In production, specify allowed origin if credentials=true, but '*' + credentials=true fails in browsers.
+    // Vercel handles this automatically usually, but let's be safe for debugging.
+    // Or remove credentials if not needed for this test.
 
-app.use(cors({ origin: true, credentials: true }));
-app.use(express.json());
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
 
-// Simple test endpoint
-app.post('/api/auth/login', async (req, res) => {
-    try {
-        res.json({
-            success: true,
-            message: 'Minimal auth handler is working',
-            body: req.body,
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: error.message
-        });
+    // Handle preflight
+    if (req.method === 'OPTIONS') {
+        res.status(200).end();
+        return;
     }
-});
 
-app.get('/api/auth/test', (req, res) => {
-    res.json({ message: 'Auth test endpoint works' });
-});
+    const { method, body, query } = req;
 
-module.exports = serverless(app);
+    res.status(200).json({
+        success: true,
+        message: 'Native Vercel handler works!',
+        handler_type: 'native',
+        method,
+        body: body || 'No Body',
+        query,
+        timestamp: new Date().toISOString()
+    });
+};
