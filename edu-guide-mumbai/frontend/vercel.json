@@ -23,7 +23,7 @@
     },
     {
       "source": "/api/auth/:path*",
-      "destination": "/api/auth.js"
+      "destination": "/api/auth-minimal.js"
     },
     {
       "source": "/api/colleges/:path*",
