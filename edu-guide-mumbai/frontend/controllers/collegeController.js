@@ -42,7 +42,7 @@ const getColleges = async (req, res, next) => {
 
     // Search filter
     if (search) {
-      query += " AND (c.college_name LIKE ? OR c.description LIKE ?)";
+      query += " AND (LOWER(c.college_name) LIKE LOWER(?) OR LOWER(c.description) LIKE LOWER(?))";
       queryParams.push(`%${search}%`, `%${search}%`);
     }
 
