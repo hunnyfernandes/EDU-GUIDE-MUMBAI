@@ -76,15 +76,15 @@ app.use(
     origin: function (origin, callback) {
       // Allow requests with no origin (mobile apps, Postman, curl, etc.)
       if (!origin) return callback(null, true);
-      
+
       // In development or if explicitly allowed
       if (process.env.NODE_ENV !== 'production' || allowedOrigins.some(o => origin.startsWith(o))) {
-         return callback(null, true);
+        return callback(null, true);
       }
 
       // For debugging, allow Vercel previews
       if (origin.endsWith('.vercel.app')) {
-         return callback(null, true);
+        return callback(null, true);
       }
 
       // Check if origin is in allowed list (strict check)
@@ -94,7 +94,7 @@ app.use(
         // Temporarily allow ALL origins to debug "none of the feature is working"
         // TODO: Re-enable strict CORS later
         console.warn(`⚠️ CORS Warning: Request from ${origin} allowed temporarily.`);
-        callback(null, true); 
+        callback(null, true);
         // logger.warn(`CORS blocked request from origin: ${origin}`);
         // callback(new Error('Not allowed by CORS'));
       }
@@ -188,12 +188,12 @@ try {
   console.error("❌ Failed to mount auth routes:", error);
 }
 
-// Temporarily disabled for debugging Vercel 504 Timeout
-/*
+// Re-enabled college and review routes
 try {
   console.log(`[${new Date().toISOString()}] Require collegeRoutes...`);
   const collegeRoutes = require("./routes/collegeRoutes");
   app.use("/api/colleges", collegeRoutes);
+  console.log(`[${new Date().toISOString()}] ✅ College routes mounted successfully`);
 } catch (error) {
   console.error("❌ Failed to mount college routes:", error);
 }
@@ -202,10 +202,10 @@ try {
   console.log(`[${new Date().toISOString()}] Require reviewRoutes...`);
   const reviewRoutes = require("./routes/reviewRoutes");
   app.use("/api/reviews", reviewRoutes);
+  console.log(`[${new Date().toISOString()}] ✅ Review routes mounted successfully`);
 } catch (error) {
   console.error("❌ Failed to mount review routes:", error);
 }
-*/
 
 // try {
 //   const adminRoutes = require("./routes/adminRoutes");
