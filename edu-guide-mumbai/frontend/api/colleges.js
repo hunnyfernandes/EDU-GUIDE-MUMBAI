@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     // Parse path: /api/colleges/:path*
     let pathSegments = req.query.path || [];
     if (typeof pathSegments === 'string') {
-        pathSegments = [pathSegments];
+        pathSegments = pathSegments.split('/');
     }
 
     // Route logic
