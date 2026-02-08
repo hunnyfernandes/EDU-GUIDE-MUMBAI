@@ -3,6 +3,7 @@ require('dotenv').config();
 
 // Create connection pool for better performance
 // Optimized for Vercel Serverless environment
+console.log('Initializing MySQL Pool...');
 const pool = mysql.createPool({
     // HARDCODED CREDENTIALS FOR VERCEL DEPLOYMENT - DO NOT COMMIT TO PUBLIC REPO PERMANENTLY
     host: 'gateway01.eu-central-1.prod.aws.tidbcloud.com',

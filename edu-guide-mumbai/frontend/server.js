@@ -177,15 +177,21 @@ app.get("/api/debug/db", async (req, res) => {
 });
 
 // API Routes
+console.log(`[${new Date().toISOString()}] Mounting routes...`);
+
 try {
+  console.log(`[${new Date().toISOString()}] Require authRoutes...`);
   const authRoutes = require("./routes/authRoutes");
   app.use("/api/auth", authRoutes);
-  console.log("✅ Auth routes mounted successfully");
+  console.log(`[${new Date().toISOString()}] ✅ Auth routes mounted successfully`);
 } catch (error) {
   console.error("❌ Failed to mount auth routes:", error);
 }
 
+// Temporarily disabled for debugging Vercel 504 Timeout
+/*
 try {
+  console.log(`[${new Date().toISOString()}] Require collegeRoutes...`);
   const collegeRoutes = require("./routes/collegeRoutes");
   app.use("/api/colleges", collegeRoutes);
 } catch (error) {
@@ -193,11 +199,21 @@ try {
 }
 
 try {
+  console.log(`[${new Date().toISOString()}] Require reviewRoutes...`);
   const reviewRoutes = require("./routes/reviewRoutes");
   app.use("/api/reviews", reviewRoutes);
 } catch (error) {
   console.error("❌ Failed to mount review routes:", error);
 }
+*/
+
+// try {
+//   const adminRoutes = require("./routes/adminRoutes");
+//   app.use("/api/admin", adminRoutes);
+//   console.log("✅ Admin routes mounted successfully");
+// } catch (error) {
+//   console.error("❌ Failed to mount admin routes:", error);
+// }
 
 try {
   const userRoutes = require("./routes/userRoutes");
