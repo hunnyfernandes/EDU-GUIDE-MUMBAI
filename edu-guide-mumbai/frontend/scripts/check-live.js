@@ -1,31 +1,26 @@
 const https = require('https');
+const fs = require('fs');
+const path = require('path');
+
+const logFile = path.join(__dirname, 'check-result.txt');
 
 const checkUrl = (url) => {
-  return new Promise((resolve, reject) => {
-    console.log(`Checking ${url}...`);
-    https.get(url, (res) => {
-      let data = '';
-      res.on('data', (chunk) => data += chunk);
-      res.on('end', () => {
-        console.log(`Status: ${res.statusCode}`);
-        try {
-            const json = JSON.parse(data);
-            console.log('Body:', JSON.stringify(json, null, 2));
-        } catch (e) {
-            console.log('Body:', data.substring(0, 200));
-        }
-        resolve();
-      });
-    }).on('error', (err) => {
-      console.error(`Error: ${err.message}`);
-      resolve();
+  console.log(`Checking ${url}...`);
+  https.get(url, (res) => {
+    let data = '';
+    res.on('data', (chunk) => {
+      data += chunk;
     });
+    res.on('end', () => {
+      const result = `Status: ${res.statusCode}\nBody: ${data}`;
+      console.log(result);
+      fs.writeFileSync(logFile, result);
+    });
+  }).on('error', (e) => {
+    const err = `Error: ${e.message}`;
+    console.error(err);
+    fs.writeFileSync(logFile, err);
   });
 };
 
-async function check() {
-  await checkUrl('https://frontend-edu-guide.vercel.app/api/health');
-  await checkUrl('https://frontend-edu-guide.vercel.app/api/debug/db');
-}
-
-check();
+checkUrl('https://frontend-edu-guide.vercel.app/api/debug-db-full');

@@ -172,19 +172,73 @@ app.get("/api/debug/db", async (req, res) => {
 });
 
 // API Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/colleges", collegeRoutes);
-app.use("/api/reviews", reviewRoutes);
-app.use("/api/user", userRoutes);
-// app.use("/api/admin", adminRoutes);
-// app.use("/api/chatbot", chatbotRoutes);
+try {
+  const authRoutes = require("./routes/authRoutes");
+  app.use("/api/auth", authRoutes);
+  console.log("✅ Auth routes mounted successfully");
+} catch (error) {
+  console.error("❌ Failed to mount auth routes:", error);
+}
+
+try {
+  const collegeRoutes = require("./routes/collegeRoutes");
+  app.use("/api/colleges", collegeRoutes);
+} catch (error) {
+  console.error("❌ Failed to mount college routes:", error);
+}
+
+try {
+  const reviewRoutes = require("./routes/reviewRoutes");
+  app.use("/api/reviews", reviewRoutes);
+} catch (error) {
+  console.error("❌ Failed to mount review routes:", error);
+}
+
+try {
+  const userRoutes = require("./routes/userRoutes");
+  app.use("/api/user", userRoutes);
+} catch (error) {
+  console.error("❌ Failed to mount user routes:", error);
+}
+
+try {
+  const adminRoutes = require("./routes/adminRoutes");
+  app.use("/api/admin", adminRoutes);
+  console.log("✅ Admin routes mounted successfully");
+} catch (error) {
+  console.error("❌ Failed to mount admin routes:", error);
+}
+
+try {
+  const chatbotRoutes = require("./routes/chatbotRoutes");
+  app.use("/api/chatbot", chatbotRoutes);
+  console.log("✅ Chatbot routes mounted successfully");
+} catch (error) {
+  console.error("❌ Failed to mount chatbot routes:", error);
+}
 
 // Health check route
 app.get("/api/health", (req, res) => {
+  // Get list of mounted routes for debugging
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      routes.push(Object.keys(middleware.route.methods).join(', ').toUpperCase() + ' ' + middleware.route.path);
+    } else if (middleware.name === 'router') {
+      // This is a mounted router
+      // We can't easily get the prefix here without extra work, but we can see it's mounted
+      routes.push('ROUTER MOUNTED');
+    }
+  });
+
   res.json({
     success: true,
-    message: "Edu Guide Mumbai API is running (Testing Auth Routes + Admin Disabled)",
+    message: "Edu Guide Mumbai API is running (All Routes Enabled + Diagnostic)",
     timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV,
+    vercel: process.env.VERCEL ? true : false,
+    routes_summary: routes.length,
+    debug_routes: routes // This will help us see if /api/auth is mounted
   });
 });
 
