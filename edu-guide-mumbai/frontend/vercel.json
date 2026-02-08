@@ -22,6 +22,14 @@
       "destination": "/api/test.js"
     },
     {
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth.js"
+    },
+    {
+      "source": "/api/colleges/:path*",
+      "destination": "/api/colleges.js"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     },
