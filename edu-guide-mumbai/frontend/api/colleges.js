@@ -1,6 +1,7 @@
 const nativeWrapper = require('../utils/nativeWrapper');
 const collegeController = require('../controllers/collegeController');
 const { promisePool } = require('../config/database');
+const { optionalAuth } = require('../middleware/auth');
 
 module.exports = async (req, res) => {
     // CORS Headers
@@ -55,7 +56,12 @@ module.exports = async (req, res) => {
             }
         } else if (req.method === 'POST') {
             if (pathSegments[0] === 'compare') {
-                await nativeWrapper(collegeController.compareColleges)(req, res);
+                // Use optionalAuth middleware
+                await nativeWrapper(async (req, res, next) => {
+                    await optionalAuth(req, res, async () => {
+                        await collegeController.compareColleges(req, res, next);
+                    });
+                })(req, res);
             } else {
                 res.statusCode = 404;
                 res.end(JSON.stringify({ message: 'POST route not found' }));
