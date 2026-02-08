@@ -22,12 +22,17 @@ const path = require("path");
 // Swagger documentation
 let swaggerUi, swaggerSpec, swaggerOptions;
 try {
-  const swaggerConfig = require("./config/swagger");
-  swaggerUi = swaggerConfig.swaggerUi;
-  swaggerSpec = swaggerConfig.swaggerSpec;
-  swaggerOptions = swaggerConfig.swaggerOptions;
+  // Skip Swagger in Vercel to improve startup time and avoid timeouts
+  if (!process.env.VERCEL) {
+    const swaggerConfig = require("./config/swagger");
+    swaggerUi = swaggerConfig.swaggerUi;
+    swaggerSpec = swaggerConfig.swaggerSpec;
+    swaggerOptions = swaggerConfig.swaggerOptions;
+  } else {
+    console.log("ℹ️ Skipping Swagger setup in Vercel environment");
+  }
 } catch (err) {
-  console.warn("⚠️ Swagger setup failed (likely due to Vercel environment):", err.message);
+  console.warn("⚠️ Swagger setup failed:", err.message);
 }
 
 // Caching middleware
