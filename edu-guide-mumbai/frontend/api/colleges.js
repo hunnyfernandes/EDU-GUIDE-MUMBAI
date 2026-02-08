@@ -1,33 +1,72 @@
-const serverless = require('serverless-http');
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+const nativeWrapper = require('../utils/nativeWrapper');
+const collegeController = require('../controllers/collegeController');
+const { promisePool } = require('../config/database');
 
-const app = express();
+module.exports = async (req, res) => {
+    // CORS Headers
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+    );
 
-// Middleware
-app.use(cors({
-    origin: function (origin, callback) {
-        callback(null, true);
-    },
-    credentials: true,
-}));
-app.use(express.json());
+    if (req.method === 'OPTIONS') {
+        res.statusCode = 200;
+        res.end();
+        return;
+    }
 
-// Import only college routes
-const collegeRoutes = require('../routes/collegeRoutes');
+    // Parse path: /api/colleges/:path*
+    let pathSegments = req.query.path || [];
+    if (typeof pathSegments === 'string') {
+        pathSegments = [pathSegments];
+    }
 
-// Mount college routes at /api/colleges to match the incoming request path
-app.use('/api/colleges', collegeRoutes);
+    // Route logic
 
-// Error handler
-app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(err.status || 500).json({
-        success: false,
-        message: err.message || 'Internal server error',
-        ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-    });
-});
-
-module.exports = serverless(app);
+    try {
+        if (req.method === 'GET') {
+            if (pathSegments.length === 0) {
+                await nativeWrapper(collegeController.getColleges)(req, res);
+            } else {
+                const route = pathSegments[0];
+                if (route === 'featured') {
+                    await nativeWrapper(collegeController.getFeaturedColleges)(req, res);
+                } else if (route === 'streams') {
+                    // /api/colleges/streams/all
+                    if (pathSegments[1] === 'all') {
+                        await nativeWrapper(async (req, res) => {
+                            const [streams] = await promisePool.query('SELECT stream_id, stream_name, stream_code, description FROM streams ORDER BY stream_id');
+                            res.json({ data: streams });
+                        })(req, res);
+                    } else {
+                        res.statusCode = 404;
+                        res.end(JSON.stringify({ message: 'Stream route not found' }));
+                    }
+                } else if (route === 'search' && pathSegments[1] === 'autocomplete') {
+                    await nativeWrapper(collegeController.autocompleteSearch)(req, res);
+                } else {
+                    // ID
+                    req.params = { id: route };
+                    await nativeWrapper(collegeController.getCollegeById)(req, res);
+                }
+            }
+        } else if (req.method === 'POST') {
+            if (pathSegments[0] === 'compare') {
+                await nativeWrapper(collegeController.compareColleges)(req, res);
+            } else {
+                res.statusCode = 404;
+                res.end(JSON.stringify({ message: 'POST route not found' }));
+            }
+        } else {
+            res.statusCode = 405;
+            res.end(JSON.stringify({ message: 'Method not allowed' }));
+        }
+    } catch (error) {
+        console.error('Unhandled College Error:', error);
+        res.statusCode = 500;
+        res.end(JSON.stringify({ error: error.message }));
+    }
+};
