@@ -17,8 +17,8 @@ app.use(express.json());
 // Import only college routes
 const collegeRoutes = require('../routes/collegeRoutes');
 
-// Mount college routes
-app.use('/colleges', collegeRoutes);
+// Mount college routes at /api/colleges to match the incoming request path
+app.use('/api/colleges', collegeRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {

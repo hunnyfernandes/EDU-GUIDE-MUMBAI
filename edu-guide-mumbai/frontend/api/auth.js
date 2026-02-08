@@ -20,8 +20,8 @@ app.use(cookieParser());
 // Import only auth routes
 const authRoutes = require('../routes/authRoutes');
 
-// Mount auth routes
-app.use('/auth', authRoutes);
+// Mount auth routes at /api/auth to match the incoming request path
+app.use('/api/auth', authRoutes);
 
 // Health check
 app.get('/test', (req, res) => {
