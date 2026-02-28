@@ -450,9 +450,9 @@ Please provide your response:`;
       systemInstruction: systemInstruction,
     });
 
-    // Create a timeout promise (40 seconds for Vercel safety)
+    // Create a timeout promise (10 seconds for Vercel safety)
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Gemini API timeout')), 40000)
+      setTimeout(() => reject(new Error('Gemini API timeout - too slow')), 10000)
     );
 
     // Race between API call and timeout
@@ -1086,9 +1086,24 @@ const generateAIResponse = async (userQuery, context, conversationHistory = [], 
       provider: activeProvider,
     };
   } catch (error) {
-    console.error(`AI API error (${activeProvider}):`, error);
+    console.error(`AI API error (${activeProvider}):`, error.message);
 
-    // Try fallback provider if available
+    // On Vercel, immediately use fallback instead of trying other providers
+    if (process.env.VERCEL) {
+      console.log('🔄 Vercel environment - using intelligent fallback response');
+      const fallbackResult = generateFallbackResponse(userQuery, context, conversationHistory);
+      return {
+        response: fallbackResult.response,
+        suggestedPages: fallbackResult.suggestedPages || [
+          { label: 'Browse All Colleges', path: '/colleges' },
+          { label: 'Compare Colleges', path: '/compare' },
+        ],
+        suggestions: fallbackResult.suggestions || [],
+        provider: 'fallback-vercel',
+      };
+    }
+
+    // Try fallback provider if available (local development only)
     const fallbackProvider = activeProvider === 'openai' ? 'gemini' : 'openai';
     const fallbackAvailable = fallbackProvider === 'gemini' ? geminiModel : openai;
 
@@ -1147,7 +1162,7 @@ const processChatMessage = async (userQuery, userId = null, conversationHistory 
       }
     }
 
-    // Generate AI response
+    // Generate AI response with shorter timeout
     const result = await generateAIResponse(userQuery, context, conversationHistory, stream);
 
     // Optionally log the chat (for analytics)
@@ -1173,15 +1188,27 @@ const processChatMessage = async (userQuery, userId = null, conversationHistory 
       stream: result.stream || null,
     };
   } catch (error) {
-    console.error('Chat processing error:', error);
+    console.error('Chat processing error:', error.message);
 
-    // Try to generate fallback response even on error
+    // For Vercel, immediately use intelligent fallback
+    if (process.env.VERCEL) {
+      console.log('⚡ Using fast fallback response on Vercel');
+      const fallbackResult = generateFallbackResponse(userQuery, { colleges: [], courses: [], admission: [], placements: [], streams: [] }, conversationHistory);
+      return {
+        success: true,
+        message: fallbackResult.response,
+        suggestedPages: fallbackResult.suggestedPages || [
+          { label: 'Browse All Colleges', path: '/colleges' },
+          { label: 'Compare Colleges', path: '/compare' },
+        ],
+        suggestions: fallbackResult.suggestions || [],
+        provider: 'fallback-error',
+      };
+    }
+
+    // For local development, try to generate context
     try {
-      // Skip database on Vercel, use empty context
-      const context = process.env.VERCEL 
-        ? { colleges: [], courses: [], admission: [], placements: [], streams: [] }
-        : (await searchDatabase(userQuery, conversationHistory).catch(() => ({ colleges: [], courses: [], admission: [], placements: [], streams: [] })));
-      
+      const context = await searchDatabase(userQuery, conversationHistory).catch(() => ({ colleges: [], courses: [], admission: [], placements: [], streams: [] }));
       const fallbackResult = generateFallbackResponse(userQuery, context, conversationHistory);
 
       return {
