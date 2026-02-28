@@ -450,12 +450,12 @@ Please provide your response:`;
       systemInstruction: systemInstruction,
     });
 
-    // Create a timeout promise (10 seconds for Vercel safety)
+    // Create a timeout promise (2 seconds - fail fast for instant fallback)
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Gemini API timeout - too slow')), 10000)
+      setTimeout(() => reject(new Error('Gemini API timeout - too slow')), 2000)
     );
 
-    // Race between API call and timeout
+    // Race between API call and timeout - fail fast to use fallback
     const result = await Promise.race([
       chat.sendMessage(userPrompt),
       timeoutPromise

@@ -40,10 +40,9 @@ const sendMessage = async (req, res, next) => {
     // Get user ID if authenticated (optional)
     const userId = req.user ? req.user.user_id : null;
 
-    // Add timeout for Vercel (process must complete within 55 seconds)
-    // Use 15 second timeout for API to fail fast and use fallback
+    // Add timeout for Vercel - fail fast and use fallback (3 seconds max)
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Chatbot API timeout - using fallback')), 15000) // 15 second timeout for faster fallback
+      setTimeout(() => reject(new Error('Chatbot timeout - using fallback')), 3000) // 3 second timeout for instant fallback
     );
 
     // Process the chat message with conversation history
