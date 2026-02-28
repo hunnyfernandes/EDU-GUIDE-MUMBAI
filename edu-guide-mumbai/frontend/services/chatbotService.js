@@ -450,9 +450,9 @@ Please provide your response:`;
       systemInstruction: systemInstruction,
     });
 
-    // Create a timeout promise (2 seconds - fail fast for instant fallback)
+    // Create a timeout promise (800ms - ultra fast failure for instant fallback)
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Gemini API timeout - too slow')), 2000)
+      setTimeout(() => reject(new Error('Gemini API timeout')), 800)
     );
 
     // Race between API call and timeout - fail fast to use fallback
