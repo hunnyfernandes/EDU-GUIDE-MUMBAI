@@ -1,3 +1,6 @@
+// Suppress Node.js deprecation warnings from dependencies
+process.noDeprecation = true;
+
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");

@@ -1,9 +1,6 @@
 const serverless = require('serverless-http');
 const express = require('express');
 
-// Suppress known Node.js deprecation warnings from dependencies
-process.noDeprecation = true;
-
 // Ensure VERCEL environment variable is set to prevent app.listen() in server.js
 process.env.VERCEL = '1';
 
