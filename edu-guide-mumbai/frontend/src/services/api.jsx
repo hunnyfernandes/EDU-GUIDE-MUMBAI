@@ -10,7 +10,7 @@ const api = axios.create({
         'Content-Type': 'application/json',
     },
     withCredentials: true, // Allow cookies to be sent with requests
-    timeout: 20000, // Timeout after 20 seconds
+    timeout: 55000, // Timeout after 55 seconds (matches Vercel maxDuration of 60s)
 });
 
 // Flag to prevent infinite refresh loops
