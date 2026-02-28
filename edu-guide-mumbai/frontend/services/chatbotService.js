@@ -7,11 +7,22 @@ let openai = null;
 let gemini = null;
 let geminiModel = null;
 
+console.log('🔍 Initializing AI providers...');
+console.log(`   OPENAI_API_KEY present: ${!!process.env.OPENAI_API_KEY}`);
+console.log(`   GEMINI_API_KEY present: ${!!process.env.GEMINI_API_KEY}`);
+console.log(`   GEMINI_MODEL: ${process.env.GEMINI_MODEL || 'not set'}`);
+console.log(`   AI_PROVIDER: ${process.env.AI_PROVIDER || 'not set'}`);
+console.log(`   VERCEL: ${process.env.VERCEL || 'false'}`);
+
 if (process.env.OPENAI_API_KEY) {
-  openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-  console.log('✅ OpenAI (ChatGPT) initialized');
+  try {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    console.log('✅ OpenAI (ChatGPT) initialized');
+  } catch (err) {
+    console.error('❌ Failed to initialize OpenAI:', err.message);
+  }
 }
 
 if (process.env.GEMINI_API_KEY) {
@@ -19,10 +30,12 @@ if (process.env.GEMINI_API_KEY) {
     gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const modelName = process.env.GEMINI_MODEL || 'gemini-pro';
     geminiModel = gemini.getGenerativeModel({ model: modelName });
-    console.log(`✅ Google Gemini (${modelName}) initialized`);
+    console.log(`✅ Google Gemini (${modelName}) initialized successfully`);
   } catch (error) {
     console.error('❌ Failed to initialize Gemini:', error.message);
   }
+} else {
+  console.warn('⚠️  GEMINI_API_KEY not found in environment variables');
 }
 
 // Get active AI provider
@@ -437,12 +450,21 @@ Please provide your response:`;
       systemInstruction: systemInstruction,
     });
 
-    // Generate response
-    const result = await chat.sendMessage(userPrompt);
+    // Create a timeout promise (40 seconds for Vercel safety)
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Gemini API timeout')), 40000)
+    );
+
+    // Race between API call and timeout
+    const result = await Promise.race([
+      chat.sendMessage(userPrompt),
+      timeoutPromise
+    ]);
+
     const response = result.response;
     return response.text();
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('Gemini API error:', error.message);
     throw error;
   }
 };
@@ -1112,14 +1134,24 @@ const generateAIResponse = async (userQuery, context, conversationHistory = [], 
  */
 const processChatMessage = async (userQuery, userId = null, conversationHistory = [], stream = false) => {
   try {
-    // Search database for relevant information
-    const context = await searchDatabase(userQuery, conversationHistory);
+    // On Vercel, skip database queries to avoid timeouts - use AI-only responses
+    let context = { colleges: [], courses: [], admission: [], placements: [], streams: [] };
+    
+    // Only search database if NOT on Vercel (local development)
+    if (!process.env.VERCEL) {
+      try {
+        context = await searchDatabase(userQuery, conversationHistory);
+      } catch (dbError) {
+        console.error('Database search failed:', dbError.message);
+        // Continue with empty context
+      }
+    }
 
     // Generate AI response
     const result = await generateAIResponse(userQuery, context, conversationHistory, stream);
 
     // Optionally log the chat (for analytics)
-    if (userId && process.env.LOG_CHAT_ENABLED === 'true') {
+    if (userId && process.env.LOG_CHAT_ENABLED === 'true' && !process.env.VERCEL) {
       try {
         await promisePool.query(
           `INSERT INTO chat_logs (user_id, message, response, context_used, created_at) 
@@ -1145,7 +1177,11 @@ const processChatMessage = async (userQuery, userId = null, conversationHistory 
 
     // Try to generate fallback response even on error
     try {
-      const context = await searchDatabase(userQuery, conversationHistory);
+      // Skip database on Vercel, use empty context
+      const context = process.env.VERCEL 
+        ? { colleges: [], courses: [], admission: [], placements: [], streams: [] }
+        : (await searchDatabase(userQuery, conversationHistory).catch(() => ({ colleges: [], courses: [], admission: [], placements: [], streams: [] })));
+      
       const fallbackResult = generateFallbackResponse(userQuery, context, conversationHistory);
 
       return {

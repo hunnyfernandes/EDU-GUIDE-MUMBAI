@@ -1,0 +1,81 @@
+STARTING TEST
+0. Testing Minimal Function (/api/test)...
+   DEBUG: Starting GET request to https://frontend-edu-guide.vercel.app/api/test
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 200
+   DEBUG: Response ended
+   Status: 200
+   Response: {"message":"Test function is working"}
+0.1. Testing Simple Route (/api/test-simple)...
+   DEBUG: Starting GET request to https://frontend-edu-guide.vercel.app/api/test-simple
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 504
+   DEBUG: Response ended
+   Status: 504
+   Response: An error occurred with your deployment
+
+FUNCTION_INVOCATION_TIMEOUT
+
+bom1::vbfhr-1770567430303-b9f207229ac2
+
+
+0. Testing Health Check (/api/health)...
+   DEBUG: Starting GET request to https://frontend-edu-guide.vercel.app/api/health
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 504
+   DEBUG: Response ended
+   Status: 504
+   Response: An error occurred with your deployment
+
+FUNCTION_INVOCATION_TIMEOUT
+
+bom1::8pzvp-1770567441756-03cac957a790
+
+0.2. Testing Auth Route (/api/auth/test)...
+   DEBUG: Starting GET request to https://frontend-edu-guide.vercel.app/api/auth/test
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 504
+   DEBUG: Response ended
+   Status: 504
+   Response: An error occurred with your deployment
+
+FUNCTION_INVOCATION_TIMEOUT
+
+bom1::bzswv-1770567452941-fffe24aed6f6
+
+
+0.5. Testing Database Connection (/api/debug/db)...
+   DEBUG: Starting GET request to https://frontend-edu-guide.vercel.app/api/debug/db
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 504
+   DEBUG: Response ended
+   Status: 504
+   Response: An error occurred with your deployment
+
+FUNCTION_INVOCATION_TIMEOUT
+
+bom1::n8p8l-1770567464145-9f55402a699e
+
+
+0.6. Testing College List (/api/colleges)...
+   DEBUG: Starting GET request to https://frontend-edu-guide.vercel.app/api/colleges
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 504
+   DEBUG: Response ended
+   Status: 504
+   Response Length: 108
+
+1. Testing Registration...
+   User: livetest1770567483779@example.com
+   DEBUG: Starting POST request to https://frontend-edu-guide.vercel.app/api/auth/register
+   DEBUG: Request sent, waiting for response...
+   DEBUG: Received response headers: 504
+   DEBUG: Response ended
+   Status: 504
+   Response: An error occurred with your deployment
+
+FUNCTION_INVOCATION_TIMEOUT
+
+bom1::n8p8l-1770567486229-723c1b014239
+
+❌ Registration failed

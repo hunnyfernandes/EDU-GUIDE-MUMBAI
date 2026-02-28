@@ -40,8 +40,16 @@ const sendMessage = async (req, res, next) => {
     // Get user ID if authenticated (optional)
     const userId = req.user ? req.user.user_id : null;
 
+    // Add timeout for Vercel (process must complete within 55 seconds)
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Request timeout')), 50000) // 50 second timeout
+    );
+
     // Process the chat message with conversation history
-    const result = await processChatMessage(message.trim(), userId, validHistory, false);
+    const result = await Promise.race([
+      processChatMessage(message.trim(), userId, validHistory, false),
+      timeoutPromise
+    ]);
 
     res.json({
       success: result.success,
