@@ -42,9 +42,9 @@ const sendMessage = async (req, res, next) => {
 
     console.log(`📨 Chatbot request: "${message.substring(0, 50)}..."`);
 
-    // Add timeout (9s to allow 8s Gemini timeout + 1s buffer, within Vercel 10s limit)
+    // Add timeout (5s - fail fast and use our inline fallback rather than letting Vercel timeout)
     const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Chatbot timeout')), 9000)
+      setTimeout(() => reject(new Error('Chatbot timeout')), 5000)
     );
 
     // Process the chat message with conversation history
@@ -64,8 +64,45 @@ const sendMessage = async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.error('Chatbot controller error:', error);
-    next(error);
+    console.error('Chatbot controller error:', error.message);
+
+    // NEVER return a 500 error for chatbot - always return a helpful fallback
+    const { message: userMsg, conversation_id } = req.body || {};
+    const query = (userMsg || '').toLowerCase();
+
+    let fallbackMsg = "I can help you with college recommendations, fees, admissions, and scholarships in Mumbai. What would you like to know?";
+
+    if (/\b(hello|hi|hey|namaste)\b/.test(query)) {
+      fallbackMsg = "Hello! 👋 I'm EduBot, your college advisor for Mumbai & Maharashtra. I can help you with:\n\n• 🏫 Finding colleges by stream\n• 💰 Fees & scholarship info\n• 📋 Admission processes\n• 📊 Comparing colleges\n\nWhat would you like to know?";
+    } else if (/\b(engineer|btech|cse|iit)\b/.test(query)) {
+      fallbackMsg = "🏗️ **Top Engineering Colleges in Mumbai:**\n\n• **IIT Bombay** – JEE Advanced required\n• **VJTI** – Govt. college, MHT-CET\n• **DJ Sanghvi** – Known for CS & IT\n• **SPCE** – Well-regarded\n\n📌 Admission via JEE Main / MHT-CET\n💰 Govt: ₹5K-30K/yr | Private: ₹1-3L/yr";
+    } else if (/\b(medical|mbbs|neet|doctor)\b/.test(query)) {
+      fallbackMsg = "🏥 **Top Medical Colleges in Mumbai:**\n\n• **KEM Hospital** – Top govt. medical college\n• **Grant Medical College** – Prestigious\n• **Sion Hospital** – Well-known\n\n📌 Admission via NEET UG\n💰 Govt: ₹15K-50K/yr | Private: ₹5-20L/yr";
+    } else if (/\b(commerce|bcom|ca)\b/.test(query)) {
+      fallbackMsg = "📊 **Top Commerce Colleges in Mumbai:**\n\n• **Sydenham College**\n• **HR College**\n• **Jai Hind College**\n• **NM College**\n\n📌 Admission based on HSC merit\n💰 ₹10K-1L/yr";
+    } else if (/\b(fee|fees|cost|scholarship)\b/.test(query)) {
+      fallbackMsg = "💰 **College Fees in Mumbai:**\n\n• Government: ₹5,000 – ₹30,000/year\n• Aided: ₹10,000 – ₹60,000/year\n• Private: ₹50,000 – ₹3,00,000/year\n\n🎓 Scholarships available for SC/ST/OBC and merit-based";
+    } else if (/\b(admission|apply|entrance|cutoff)\b/.test(query)) {
+      fallbackMsg = "📋 **Admission Processes:**\n\n• Engineering: JEE/MHT-CET\n• Medical: NEET\n• Arts/Commerce/Science: HSC merit\n• Law: CLAT/MH-CET Law\n\n📅 MHT-CET usually in May-June, CAP rounds in July-August";
+    }
+
+    res.json({
+      success: true,
+      data: {
+        message: fallbackMsg,
+        suggestedPages: [
+          { label: 'Browse All Colleges', path: '/colleges' },
+          { label: 'Compare Colleges', path: '/compare' },
+        ],
+        suggestions: [
+          'Tell me about engineering colleges',
+          'What are the fees?',
+          'How do admissions work?'
+        ],
+        conversation_id: conversation_id || null,
+        provider: 'fallback',
+      },
+    });
   }
 };
 
