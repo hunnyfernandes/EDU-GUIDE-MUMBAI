@@ -176,11 +176,17 @@ const ChatbotWidget = () => {
     try {
       const conversationHistory = getConversationHistory();
       console.log('📤 Sending message:', { userMessage, currentConvId, historyLength: conversationHistory.length });
-      const response = await chatbotAPI.sendMessage(
-        userMessage,
-        currentConvId,
-        conversationHistory
+
+      // 4-second frontend timeout for fast UI responsiveness. 
+      // If Vercel cold start takes too long, we instantly show our rich fallback.
+      const fastTimeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Frontend Fast Timeout')), 4000)
       );
+
+      const response = await Promise.race([
+        chatbotAPI.sendMessage(userMessage, currentConvId, conversationHistory),
+        fastTimeout
+      ]);
 
       console.log('📥 API Response:', response);
 
