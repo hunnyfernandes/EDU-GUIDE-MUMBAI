@@ -450,9 +450,9 @@ Please provide your response:`;
       systemInstruction: systemInstruction,
     });
 
-    // Create a timeout promise (800ms - ultra fast failure for instant fallback)
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Gemini API timeout')), 800)
+    // Create a timeout promise (8s - enough for Gemini to respond, within Vercel's 10s limit)
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Gemini API timeout')), 8000)
     );
 
     // Race between API call and timeout - fail fast to use fallback
@@ -1151,7 +1151,7 @@ const processChatMessage = async (userQuery, userId = null, conversationHistory 
   try {
     // On Vercel, skip database queries to avoid timeouts - use AI-only responses
     let context = { colleges: [], courses: [], admission: [], placements: [], streams: [] };
-    
+
     // Only search database if NOT on Vercel (local development)
     if (!process.env.VERCEL) {
       try {
