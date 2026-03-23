@@ -25,8 +25,30 @@ const sendMessage = async (req, res, next) => {
       });
     }
 
-    // Validate conversation history format
-    let validHistory = [];
+    // On Vercel, return instant fallback response (no API calls)
+    if (process.env.VERCEL) {
+      console.log('⚡ Vercel environment - returning instant fallback');
+      return res.json({
+        success: true,
+        data: {
+          message: `Hello! 👋 I'm EduBot, your college assistant. I can help you with:\n\n📚 **Find Colleges** - Browse top colleges in Mumbai\n🎓 **Compare Options** - Compare colleges side-by-side\n💼 **Admissions Help** - Get guidance on admission process\n💰 **Fees & Scholarships** - Understand costs and financial aid\n🏆 **Placements** - Learn about career prospects\n\nYou can also ask me about specific colleges, courses, or career advice!\n\n[Browse All Colleges](/colleges) | [Compare Colleges](/compare)`,
+          suggestedPages: [
+            { label: 'Browse All Colleges', path: '/colleges' },
+            { label: 'Compare Colleges', path: '/compare' },
+          ],
+          suggestions: [
+            'Tell me about engineering colleges',
+            'What are the best colleges?',
+            'How do I apply?'
+          ],
+          conversation_id: conversation_id || null,
+          provider: 'instant',
+        },
+      });
+    }
+
+    // For local development, use full chat processing
+    const validHistory = [];
     if (Array.isArray(conversation_history)) {
       validHistory = conversation_history
         .slice(-10) // Limit to last 10 messages
@@ -40,9 +62,9 @@ const sendMessage = async (req, res, next) => {
     // Get user ID if authenticated (optional)
     const userId = req.user ? req.user.user_id : null;
 
-    // Add timeout for Vercel - fail VERY fast (1 second) for instant fallback
+    // Add timeout for local dev
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Chatbot timeout - using fallback')), 1000) // 1 second - instant fallback
+      setTimeout(() => reject(new Error('Chatbot timeout')), 5000)
     );
 
     // Process the chat message with conversation history
