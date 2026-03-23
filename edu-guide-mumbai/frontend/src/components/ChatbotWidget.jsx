@@ -91,10 +91,54 @@ const ChatbotWidget = () => {
       }));
   };
 
+  // Fallback response generator when API is unavailable
+  const getFallbackResponse = (message) => {
+    const q = message.toLowerCase();
+
+    if (/\b(hello|hi|hey|namaste|good\s*(morning|afternoon|evening))\b/.test(q)) {
+      return "Hello! 👋 I'm EduBot, your college advisor for Mumbai & Maharashtra. I can help you with:\n\n• 🏫 Finding colleges by stream\n• 💰 Fees & scholarship info\n• 📋 Admission processes\n• 📊 Comparing colleges\n• 🎯 Career guidance\n\nWhat would you like to know?";
+    }
+    if (/\b(thanks|thank\s*you|bye|goodbye)\b/.test(q)) {
+      return "You're welcome! 😊 Feel free to come back anytime. Good luck with your academic journey! 🎓";
+    }
+    if (/\b(engineer|btech|b\.?tech|iit|vjti|cse|computer|mechanical)\b/.test(q)) {
+      return "🏗️ **Top Engineering Colleges in Mumbai:**\n\n• **IIT Bombay** – Premier institute, JEE Advanced required\n• **VJTI** – Govt. college, strong placements via MHT-CET\n• **DJ Sanghvi** – Private, known for CS & IT\n• **SPCE** – Well-regarded, good campus\n• **Thadomal Shahani** – Strong industry connections\n\n📌 **Admission:** JEE Main / MHT-CET\n💰 **Fees:** Govt: ₹5K-30K/yr | Private: ₹1-3L/yr\n\nBrowse all colleges on our [college listings](/colleges) page!";
+    }
+    if (/\b(medical|mbbs|doctor|neet|kem|pharma|nursing)\b/.test(q)) {
+      return "🏥 **Top Medical Colleges in Mumbai:**\n\n• **KEM Hospital** – Top govt. medical college\n• **Grant Medical College** – Prestigious\n• **Lokmanya Tilak (Sion)** – Well-known\n• **BYL Nair Hospital** – Reputed\n\n📌 **Admission:** NEET UG required\n💰 **Fees:** Govt: ₹15K-50K/yr | Private: ₹5-20L/yr";
+    }
+    if (/\b(commerce|bcom|b\.?com|ca|accounting|finance|bms)\b/.test(q)) {
+      return "📊 **Top Commerce Colleges in Mumbai:**\n\n• **Sydenham College** – One of India's oldest\n• **HR College** – Excellent placements\n• **Jai Hind College** – Strong academics\n• **NM College** – Great for B.Com\n• **Narsee Monjee** – Well-known for finance\n\n📌 **Admission:** HSC merit based\n💰 **Fees:** ₹10K-1L/yr";
+    }
+    if (/\b(arts|humanities|ba\b|literature|psychology|mass\s*media)\b/.test(q)) {
+      return "🎨 **Top Arts Colleges in Mumbai:**\n\n• **St. Xavier's College** – Highly prestigious\n• **Elphinstone College** – Historic institution\n• **Sophia College** – Top women's college\n• **KC College** – Good for Mass Media & Psychology\n\n📌 **Admission:** HSC merit based\n💰 **Fees:** ₹5K-50K/yr";
+    }
+    if (/\b(science|bsc|b\.?sc|physics|chemistry|biology|biotech)\b/.test(q)) {
+      return "🔬 **Top Science Colleges in Mumbai:**\n\n• **St. Xavier's College** – Excellent for pure sciences\n• **Ruia College** – Top autonomous govt. college\n• **ICT** – Premier for chemistry/biotech\n• **KC College** – Great for life sciences\n\n📌 **Admission:** HSC merit / entrance exams\n💰 **Fees:** Govt: ₹5K-15K/yr | Private: ₹20K-1L/yr";
+    }
+    if (/\b(fee|fees|cost|expensive|cheap|budget|scholarship)\b/.test(q)) {
+      return "💰 **College Fees in Mumbai:**\n\n• **Government:** ₹5,000 – ₹30,000/year\n• **Aided:** ₹10,000 – ₹60,000/year\n• **Private:** ₹50,000 – ₹3,00,000/year\n\n🎓 **Scholarships:**\n• Govt. of Maharashtra Freeship\n• Post-Matric Scholarship (SC/ST/OBC)\n• Merit-based at individual colleges\n• EWS quota fee concessions";
+    }
+    if (/\b(admission|apply|entrance|exam|cutoff|mht[\s-]?cet|jee|registration)\b/.test(q)) {
+      return "📋 **Admission Processes in Maharashtra:**\n\n• **Engineering:** JEE Main / MHT-CET → CAP rounds\n• **Medical:** NEET UG → State counseling\n• **Arts/Commerce/Science:** HSC merit\n• **Law:** CLAT / MH-CET Law\n• **Management:** CAT / CET / CMAT\n\n📅 MHT-CET: May-June | CAP Rounds: July-August";
+    }
+    if (/\b(placement|job|salary|package|recruit|career|intern)\b/.test(q)) {
+      return "💼 **Placement Info:**\n\n• **Engineering (Top):** ₹4-20 LPA average\n• **Management (MBA):** ₹6-25 LPA\n• **Commerce:** ₹3-8 LPA\n• **Arts/Humanities:** ₹2-6 LPA\n\n🏢 **Top Recruiters:** TCS, Infosys, JP Morgan, Deloitte, HDFC Bank, L&T, Reliance";
+    }
+    if (/\b(compare|versus|vs|better|which)\b/.test(q)) {
+      return "📊 You can compare colleges on our [Compare Colleges](/compare) page!\n\nCompare based on: fees, placements, rankings, infrastructure, and courses.\n\nOr ask me about specific colleges!";
+    }
+    return "I can help you with:\n\n• 🏫 **College recommendations** by stream\n• 💰 **Fees & scholarships**\n• 📋 **Admission processes**\n• 📊 **Compare colleges**\n• 💼 **Placements & careers**\n\nTry asking about engineering, medical, commerce, or arts colleges! You can also [browse all colleges](/colleges).";
+  };
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    console.log('🚀 handleSendMessage called', { inputMessage, isLoading });
 
-    if (!inputMessage.trim() || isLoading) return;
+    if (!inputMessage.trim() || isLoading) {
+      console.log('⚠️ Form submission blocked:', { inputMessage: inputMessage.trim(), isLoading });
+      return;
+    }
 
     const userMessage = inputMessage.trim();
     const currentConvId = conversationId || generateConversationId();
@@ -131,11 +175,14 @@ const ChatbotWidget = () => {
 
     try {
       const conversationHistory = getConversationHistory();
+      console.log('📤 Sending message:', { userMessage, currentConvId, historyLength: conversationHistory.length });
       const response = await chatbotAPI.sendMessage(
         userMessage,
         currentConvId,
         conversationHistory
       );
+
+      console.log('📥 API Response:', response);
 
       if (response.data && response.data.success) {
         // Get current messages from store and replace loading message with actual response
@@ -143,13 +190,13 @@ const ChatbotWidget = () => {
         const updatedMessages = currentMsgs.map((msg) =>
           msg.id === loadingMsgId
             ? {
-                id: `msg_${Date.now()}_bot`,
-                role: 'assistant',
-                content: response.data.data.message,
-                suggestedPages: response.data.data.suggestedPages || [],
-                suggestions: response.data.data.suggestions || [],
-                timestamp: new Date().toISOString(),
-              }
+              id: `msg_${Date.now()}_bot`,
+              role: 'assistant',
+              content: response.data.data.message,
+              suggestedPages: response.data.data.suggestedPages || [],
+              suggestions: response.data.data.suggestions || [],
+              timestamp: new Date().toISOString(),
+            }
             : msg
         );
 
@@ -158,6 +205,15 @@ const ChatbotWidget = () => {
         throw new Error(response.data?.message || 'Failed to get response');
       }
     } catch (error) {
+      console.error('❌ Chat error details:', {
+        name: error.name,
+        message: error.message,
+        code: error.code,
+        status: error.response?.status,
+        data: error.response?.data,
+        fullError: error,
+      });
+
       if (error.name === 'AbortError' || error.message.includes('aborted')) {
         // Request was cancelled, remove loading message
         const currentMsgs = useChatStore.getState().messages.filter(
@@ -167,25 +223,22 @@ const ChatbotWidget = () => {
         return;
       }
 
-      console.error('Chat error:', error);
-      
-      // Replace loading message with error message
+      // Replace loading message with smart fallback response
+      const fallbackContent = getFallbackResponse(userMessage);
       const currentMsgs = useChatStore.getState().messages;
       const updatedMessages = currentMsgs.map((msg) =>
         msg.id === loadingMsgId
           ? {
-              id: `msg_${Date.now()}_error`,
-              role: 'assistant',
-              content:
-                'Sorry, I encountered an error. Please try again or browse our [college listings](/colleges) for information.',
-              suggestedPages: [{ label: 'Browse All Colleges', path: '/colleges' }],
-              timestamp: new Date().toISOString(),
-            }
+            id: `msg_${Date.now()}_fallback`,
+            role: 'assistant',
+            content: fallbackContent,
+            suggestedPages: [{ label: 'Browse All Colleges', path: '/colleges' }],
+            timestamp: new Date().toISOString(),
+          }
           : msg
       );
 
       updateMessages(updatedMessages);
-      toast.error('Failed to send message. Please try again.');
     } finally {
       setLoading(false);
       abortControllerRef.current = null;
@@ -196,7 +249,7 @@ const ChatbotWidget = () => {
     // Find the user message that preceded this assistant message
     const currentMessages = useChatStore.getState().messages;
     const assistantMessage = currentMessages[messageIndex];
-    
+
     // Find the user message before this assistant message
     let userMessageIndex = -1;
     for (let i = messageIndex - 1; i >= 0; i--) {
@@ -332,10 +385,9 @@ const ChatbotWidget = () => {
 
       {/* Chat Widget */}
       {isOpen && (
-        <div 
-          className={`fixed bottom-6 right-6 w-[90vw] sm:w-[480px] ${
-            isMinimized ? 'h-16' : 'h-[700px] max-h-[85vh]'
-          } bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl flex flex-col z-50 border border-neutral-200 dark:border-neutral-700 overflow-hidden transition-all duration-300`}
+        <div
+          className={`fixed bottom-6 right-6 w-[90vw] sm:w-[480px] ${isMinimized ? 'h-16' : 'h-[700px] max-h-[85vh]'
+            } bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl flex flex-col z-50 border border-neutral-200 dark:border-neutral-700 overflow-hidden transition-all duration-300`}
           style={{
             animation: 'slideInUp 0.3s ease-out',
           }}
